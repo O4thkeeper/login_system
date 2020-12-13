@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+    <script th:src="@{/js/jquery-1.12.3.js}"></script>
+</head>
+<body>
+
+
+<div class="body">
+    <!--put请求-->
+    <form method="post" th:action="@{/user}">
+        <div>修改密码</div>
+        <input type="hidden" name="username" th:value="${session.username}"/>
+        <input id="inputPass" type="password" name="newPassword" placeholder="设定密码" required/>
+        <input id="confirmPass" type="password" placeholder="确定密码" required/>
+        <div id="tip" style="display:none;">两次密码不一致！</div>
+        <input id="submitBtn" type="submit" value="确认修改">
+        <input type="hidden" name="_method" value="put">
+    </form>
+</div>
+<script>
+    $("#submitBtn").click(function () {
+        if(!($("#inputPass").val()===$("#confirmPass").val())){
+            $("#tip").css("display","block")
+            $("#confirmPass").focus()
+            return false
+        }else{
+            $("#tip").css("display","none")
+        }
+    })
+</script>
+</body>
+</html>

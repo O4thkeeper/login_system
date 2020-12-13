@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>welcome</title>
+    <link rel="stylesheet" th:href="@{/css/welcome.css}">
+</head>
+<body>
+
+<div class="body">
+    <div>Welcome! <span th:text="${session.username}"></span></div>
+    <a th:href="@{/changePassword}">修改密码</a>
+    <div th:if="${changed}">修改成功!</div>
+</div>
+
+</body>
+</html>

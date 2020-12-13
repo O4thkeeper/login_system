@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>login</title>
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <script th:src="@{/js/jquery-1.12.3.js}"></script>
+</head>
+<body>
+
+<!--头部logo-->
+<div class="head">
+    <div class="logo">
+        <img src="" th:src="@{/pic/logo.png}" alt="logo"/>
+    </div>
+</div>
+
+<!--主体-->
+<div class="body">
+
+    <!--左侧轮播图-->
+    <div class="bodyLeft">
+
+        <div class="picContainer">
+            <a href="#" th:style="'background-image:url('+@{/pic/1.jpeg}+')'"></a>
+            <a href="#" th:style="'background-image:url('+@{/pic/2.png}+')'"></a>
+            <a href="#" th:style="'background-image:url('+@{/pic/3.jpg}+')'"></a>
+            <a href="#" th:style="'background-image:url('+@{/pic/4.jpg}+')'"></a>
+            <a href="#" th:style="'background-image:url('+@{/pic/5.jpg}+')'"></a>
+        </div>
+
+        <div class="picBtn">
+            <button class="buttonHover"></button>
+            <button></button>
+            <button></button>
+            <button></button>
+            <button></button>
+        </div>
+
+    </div>
+    <script th:src="@{/js/rotatePic.js}"></script>
+
+    <!--右侧-->
+    <div class="bodyRight">
+
+        <!--顶部button-->
+        <div class="btnWrapper">
+            <div id="loginBtn" class="" th:classappend="${codeErr} ? 'btnNotHover' : '' "
+                 th:if="${param.register==null && param.forget==null && register==null && forget==null}">账号密码登陆</div>
+            <div id="phoneBtn" class="" th:classappend="${codeErr} ? '' : 'btnNotHover' "
+                 th:if="${param.register==null && param.forget==null && register==null && forget==null}">手机快捷登陆</div>
+            <div id="registerBtn" class="" th:classappend="${param.register!=null||register!=null} ? '' : 'btnNotHover' "
+                 th:if="${param.register!=null||param.forget!=null||register!=null||forget!=null}">用户注册</div>
+            <div id="forgetBtn" class="" th:classappend="${param.forget!=null||forget!=null} ? '' : 'btnNotHover' "
+                 th:if="${param.register!=null||param.forget!=null||register!=null||forget!=null}">忘记密码</div>
+        </div>
+
+        <!--保存验证码请求地址-->
+        <div class="codeForm" th:attr="action=@{/code}" style="display: none"></div>
+        <div class="regCodeForm" th:attr="action=@{/regCode}" style="display: none"></div>
+
+        <!--右侧登陆-->
+        <div class="formWrapper" th:if="${param.register==null && param.forget==null && register==null && forget==null}">
+
+            <!--账号密码登陆-->
+            <form id="loginForm" class="" th:classappend="${codeErr} ? 'hiddenForm' : '' " th:action="@{/login}" method="post">
+                <input type="text" name="username" placeholder="用户名" required th:value="${username}"/>
+                <div th:if="${nameNotExist}">用户名不存在</div>
+                <input type="password" name="password" placeholder="密码" required th:value="${password}">
+                <div th:if="${passwordWrong}">密码错误</div>
+                <div class="idCodeWrapper">
+                    <input type="text" name="verifyCode" placeholder="6位验证码" required>
+                    <img class="verifyImg" alt="点击更换" title="点击更换" th:src="@{/getVerify}"
+                         th:attr="toGet=@{/getVerify}"/>
+                </div>
+                <div th:if="${codeWrong}">验证码错误</div>
+                <input class="submitBtn" type="submit" value="登陆">
+
+                <!--忘记密码-->
+                <div class="extraTip">
+                    <span>没有账号？<a th:href="@{/(register=true)}">注册</a></span>
+                    <a class="forgetBtn" th:href="@{/(forget=true)}">忘记密码</a>
+                </div>
+            </form>
+
+            <!--手机验证码登陆-->
+            <form id="phoneLogForm" class="" th:classappend="${codeErr} ? '' : 'hiddenForm' " th:action="@{/code}" method="get">
+                <div class="idCodeWrapper">
+                    <input class="phoneInput" type="text" name="phone" placeholder="手机号码" required>
+                    <button class="codeBtn">获取验证码</button>
+                </div>
+                <input type="text" name="idCode" placeholder="6位验证码" required>
+                <div th:if="${codeErr}">验证码错误</div>
+                <input class="submitBtn" type="submit" value="提交">
+            </form>
+
+            <!--js-->
+            <script th:src="@{/js/login_phone.js}"></script>
+
+        </div>
+
+        <!--右侧替换：忘记密码、注册-->
+        <div class="formWrapper" th:if="${param.register!=null||param.forget!=null||register!=null||forget!=null}">
+
+            <!--注册-->
+            <form id="registerForm" class="" th:classappend="${param.register!=null||register!=null} ? '' : 'hiddenForm' " method="post" th:action="@{/user}">
+                <input type="text" name="username" placeholder="用户名" th:value="${username}" required/>
+                <div th:if="${nameExists}">用户名已存在</div>
+                <div class="idCodeWrapper">
+                    <input class="phoneInput" type="text" name="phone" placeholder="手机" th:value="${phone}" required/>
+                    <button class="codeBtn">获取验证码</button>
+                </div>
+                <div th:if="${phoneExists}">手机已被注册</div>
+                <input type="text" name="idCode" placeholder="6位验证码" th:value="${idCode}" required>
+                <div th:if="${codeErr}">验证码错误</div>
+                <input id="regPassword" type="password" name="password" placeholder="密码" th:value="${password}" required/>
+                <input id="regConfirm" type="password" placeholder="确定密码" th:value="${password}" required/>
+                <div  id="regTip" class="hiddenForm">两次密码不同！</div>
+                <input class="registerBtn submitBtn" type="submit" value="注册">
+            </form>
+
+            <!--忘记密码-->
+            <form id="forgetForm" class="" th:classappend="${param.forget!=null||forget!=null} ? '' : 'hiddenForm' " th:action="@{/forget}" method="post">
+                <div class="idCodeWrapper">
+                    <input class="phoneInput" type="text" name="phone" placeholder="手机号码" required>
+                    <button class="codeBtn">获取验证码</button>
+                </div>
+                <input type="text" name="idCode" placeholder="6位验证码" required>
+                <div th:if="${codeErr}">验证码错误</div>
+                <input class="submitBtn" type="submit" value="提交">
+            </form>
+
+            <!--js-->
+            <script th:src="@{/js/register_forget.js}"></script>
+
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>update</title>
+    <link rel="stylesheet" th:href="@{/css/form.css}">
+</head>
+<body>
+
+<div id="updateBody" class="body">
+    <form id="updateForm" th:action="@{/user/}+${user.getId()}" method="post">
+        <div>id:<span th:text="${user.getId()}"></span></div>
+        <div>username:<span th:text="${user.getUsername()}"></span></div>
+        <div>password:<input th:value="${user.getPassword()}" name="password"></div>
+        <div>phone:<input th:value="${user.getPhone()}" name="phone"></div>
+        <input id="submitBtn" type="submit" value="确定修改">
+        <input type="hidden" name="_method" value="put">
+    </form>
+</div>
+
+</body>
+</html>

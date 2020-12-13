@@ -1,0 +1,38 @@
+body{
+    background-color: #8ac9ff;
+}
+
+table{
+    width: 800px;
+    position: absolute;
+    left:0;
+    right:0;
+    margin:30px auto 0;
+    text-align:center;
+    font-size: 30px;
+    border: 2px black dashed;
+    border-radius: 8px;
+}
+
+table th{
+    background: linear-gradient(to right, red, blue);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+a{
+    text-decoration: none;
+    color: gray;
+    /*border: 2px solid red;*/
+}
+a:hover{
+    color: red;
+}
+
+button{
+    color: #bfa;
+    background-color: transparent;
+    border: 2px solid #bfa;
+    font-size: 16px;
+    border-radius: 6px;
+}
