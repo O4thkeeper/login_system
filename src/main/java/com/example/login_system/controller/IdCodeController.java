@@ -27,7 +27,7 @@ public class IdCodeController {
             String idCode = CommonUtil.getRandomNum(6);
 
             /*发短信*/
-//            MessageUtil.sendSms(phone,idCode);
+            MessageUtil.sendSms(phone,idCode);
 
             redisUtil.setKey(phone, idCode, 5);
             return true;
